@@ -9,43 +9,33 @@ struct TreeNode {
 };
 // Function to find the level with maximum sum in a binary tree
 int maxLevelSum(TreeNode* root) {
-    int level = 1;
-    int maxSum = INT_MIN;
-    int ans = 1;
-    queue<TreeNode*> q;
+    int level = 1; // Start from level 1
+    int maxSum = INT_MIN; // maxSum ko initial value INT_MIN se set kiya gaya hai
+    if (root == NULL) return 0; // Agar root NULL hai toh 0 return karo
+    int ans = 1; //ans ko initial value 1 se set kiya gaya hai
+    queue<TreeNode*> q; // Queue ka use karke level order traversal karne ke liye
+    // Queue ko initialize karo
     q.push(root);
-    q.push(nullptr);
-    int curr = 0;
-    while (!q.empty()) {
-        TreeNode* temp = q.front();
-        q.pop();
-        if (temp == nullptr && !q.empty()) {
-            q.push(nullptr);
-            if (curr > maxSum) {
-                maxSum = curr;
-                ans = level;
-            }
-            curr = 0;
-            level++;
-        } else if (temp == nullptr && q.empty()) {
-            break;
-        } else {
-            if (temp != nullptr) {
-                curr += temp->val;
-            }
-        }
-        if (temp != nullptr) {
-            if (temp->left != nullptr) {
+    while (!q.empty()) { // Jab tak queue khali nahi hoti
+        int size = q.size(); // Current level ke nodes ki sankhya
+        int curr = 0; // Current level ka sum 
+        for(int i=0;i<size;i++){ // ek iteration mein ek  level ke nodes process honge
+            TreeNode* temp = q.front(); // Queue ke front se node ko nikaalo
+            q.pop(); // Queue se node ko hata do
+            // Current node ka value ko sum mein add karo
+            curr+=temp->val;
+            if(temp->left != NULL){ // Agar left child hai toh usse queue mein daal do
                 q.push(temp->left);
             }
-            if (temp->right != nullptr) {
+            if(temp->right != NULL){ // Agar right child hai toh usse queue mein daal do
                 q.push(temp->right);
             }
         }
-    }
-    if (curr > maxSum) {
-        maxSum = curr;
-        ans = level;
+        if(curr>maxSum){ // Agar current level ka sum maxSum se bada hai
+            maxSum=curr; // maxSum ko update karo
+            ans=level; // ans ko current level se update karo
+        }
+        level++; // Level ko increment karo
     }
     return ans;
 }
