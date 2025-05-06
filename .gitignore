@@ -1,6 +1,5 @@
 *.exe
 *.out
 *.class
-template.cpp
-template.java
+template.*
 tempCodeRunnerFile.*
