@@ -12,3 +12,4 @@ template.*
 !*.json
 *.exe
 *.out
+.vscode/
