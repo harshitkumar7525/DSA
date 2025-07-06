@@ -42,12 +42,18 @@ public:
 };
 int main() {
     MedianFinder mf;
+    cout<< "Initially: ";
+    cout << "[]" << endl;
     mf.addNum(1);
+    cout<< "[1]"<< endl;
     mf.addNum(2);
+    cout<< "[1, 2]" << endl;
     cout << "Median: " << mf.findMedian() << endl; // Output: 1.5
     mf.addNum(3);
+    cout << "[1, 2, 3]" << endl;
     cout << "Median: " << mf.findMedian() << endl; // Output: 2.0
     mf.addNum(4);
+    cout << "[1, 2, 3, 4]" << endl;
     cout << "Median: " << mf.findMedian() << endl; // Output: 2.5
     return 0;
 }
