@@ -75,17 +75,14 @@ public:
             // if size of ultimate parent of u is less than that of ultimate parent of v
             // then we make v the parent of u
             parent[pu] = pv;
+            size[pv] += size[pu]; // update size of pv
         }
-        else if (size[pv] < size[pu])
+        else // if size[pu] >= size[pv]
         {
             // if size of ultimate parent of u is greater than that of ultimate parent of v
             // then we make u the parent of v
             parent[pv] = pu;
-        }
-        else
-        {
-            parent[pu] = pv;
-            size[pv] += size[pv];
+            size[pu] += size[pv]; // update size of pu
         }
     }
 };
