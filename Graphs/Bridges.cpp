@@ -9,32 +9,38 @@ private:
     vector<vector<int>> bridges; // Saare critical connections store karenge
 
     // Tarjan's Algorithm based DFS function to find bridges
-    void dfs(int node, int parent, vector<vector<int>>& adj) {
-        visited[node] = true;
-        tin[node] = low[node] = timer++; // Jab first time visit kar rahe, usi ko tin & low dono set karo
+    void dfs(int u, int parent, vector<vector<int>>& adj) {
+        visited[u] = true;
+        tin[u] = low[u] = timer++; // Jab first time visit kar rahe, usi ko tin & low dono set karo
 
         // Sabhi adjacent (connected) nodes pe iterate karo
-        for (auto& it : adj[node]) {
-            if (it == parent) continue; // Parent pe wapas jaane ka koi faayda nahi
+        for (auto& v : adj[u]) {
+            if (v == parent) continue; // Parent pe wapas jaane ka koi faayda nahi
 
-            if (!visited[it]) {
+            if (!visited[v]) {
                 // Agar adjacent node visit nahi hua hai toh DFS call karo
-                dfs(it, node, adj);
+                dfs(v, u, adj);
 
                 // Wapas aane ke baad apna low update karo based on child ka low
-                low[node] = min(low[node], low[it]);
+                low[u] = min(low[u], low[v]);
 
                 // Yahan bridge check hota hai:
                 // Agar child ka low > current ka discovery time,
                 // iska matlab child parent ke bina kisi ancestor pe wapas nahi ja sakta -> bridge hai
                 // pehle parent visit hua sirf tab hi hm log child ko visit kr skte hain bina uske hmlog nhi visit krr skte
                 if (low[it] > tin[node]) {
-                    bridges.push_back({it, node});
+                    /* agar hm u node se v node tak ja rahe hain
+                    agar u-v bridge hai toh
+                    hamesha discovery time of u (tin[u]) hamesha lowest discovery time
+                    of all neighbours of v (low[v]) se zyada hoga
+                    iss case mein u-v bridge hai
+                    */
+                    bridges.push_back({v, u});
                 }
             } else {
                 // Agar adjacent node already visited hai aur parent nahi hai,
                 // toh ek back-edge hai -> low value update karo
-                low[node] = min(low[node], tin[it]);
+                low[u] = min(low[u], tin[v]);
             }
         }
     }
